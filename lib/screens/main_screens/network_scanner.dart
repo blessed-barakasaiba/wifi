@@ -13,26 +13,24 @@ class _NetworkScannerState extends State<NetworkScanner> {
   List<String> devices = [];
   bool scanning = false;
 
-  Future<void> startScan() async {
-    setState(() {
-      scanning = true;
-    });
+Future<void> startScan() async {
+  setState(() {
+    scanning = true;
+    devices = [];
+  });
 
-    
-
+  try {
     final ip = await _networkServices.getMyIp();
-
-    if (ip == null) return;
+    if (ip == null) return; // spinner will clear in finally
 
     final subnet = _networkServices.extractSubnet(ip);
-
     final found = await _networkServices.getDevices(subnet);
 
-    setState(() {
-      devices = found;
-      scanning = false;
-    });
+    setState(() => devices = found);
+  } finally {
+    setState(() => scanning = false); // ALWAYS clears the spinner
   }
+}
 
   @override
   Widget build(BuildContext context) {
