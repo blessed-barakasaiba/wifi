@@ -43,6 +43,7 @@ dependencies:
   flutter_launcher_icons: 
   wifi_iot: 
   async: 
+  flutter_spinkit: 
 
 dev_dependencies:
   flutter_test:
